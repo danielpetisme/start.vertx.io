@@ -1,0 +1,9 @@
+
+- name: Install vertx-starter
+  hosts: start.vertx.io
+  become: true
+  roles:
+    - common
+    - java
+    - vertx
+#    - vertx-starter

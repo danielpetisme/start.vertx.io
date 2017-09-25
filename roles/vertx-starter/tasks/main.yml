@@ -1,0 +1,17 @@
+---
+
+
+- name: Create Vertx-Starter directory ' {{ vertx_starter_home }} '
+  file: path={{ vertx_starter_home }} state=directory owner={{ vertx_user }} group={{ vertx_group }} 
+
+# TODO Define how to deploy vertx_starter on the machine
+# Option1: git clone the sources and build on the machine before restarting the service
+# Option2: build the fatjar before and curl the jar before
+
+- name: Update Vertx-Starter service desciption
+  template: src=vertx_starter.service.j2 dest=/etc/systemd/system/vertx_starter.service owner={{ vertx_user }} group={{ vertx_group }} mode=0640
+  register: vertx_starter_update
+
+- name: Make sure Vertx-Starter running and enabled on boot
+  service: name=vertx_starter state=restarted enabled=yes
+  when: vertx_starter_update.changed

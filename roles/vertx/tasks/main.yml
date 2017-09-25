@@ -1,0 +1,10 @@
+---
+
+- name: Create Vertx user '{{ vertx_user }}'
+  user:
+    name: "{{ vertx_user }}"
+    group: "{{ vertx_group }}"
+    home: "{{ vertx_home }}"
+    shell: "/bin/nologin"
+    comment: "Account to run Vertx apps"
+    state: "present"

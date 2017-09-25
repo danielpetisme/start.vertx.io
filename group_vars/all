@@ -1,0 +1,8 @@
+---
+
+jdk_package: "openjdk-8-jdk"
+
+vertx_user: "vertx"
+vertx_group: "vertx"
+vertx_home: "/var/lib/vertx"
+vertx_starter_home: "{{ vertx_home }}/vertx-starter"

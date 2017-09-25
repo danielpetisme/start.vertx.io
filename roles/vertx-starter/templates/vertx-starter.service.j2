@@ -1,0 +1,13 @@
+[Unit]
+Description=Vertx Starter
+After=network-online.target
+     
+[Service]
+ExecStart=/usr/bin/java \
+    -Dvertx.logger-delegate-factory-class-name="io.vertx.core.logging.SLF4JLogDelegateFactory" \
+    {{ vertx-starter-home}}/vertx-starter.jar \
+    -conf {{ vertx-starter-home}}/prod-conf.json
+User=vertx
+     
+[Install]
+WantedBy=multi-user.target
