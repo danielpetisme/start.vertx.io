@@ -7,27 +7,26 @@
 - name: Create Vertx-Starter configuration directory ' {{ vertx_starter_conf_dir }} '
   file: path={{ vertx_starter_conf_dir }} state=directory owner={{ vertx_user }} group={{ vertx_group }} 
 
+- name: Find previous Vertx-Starter version
+  find: paths={{ vertx_starter_home_dir }} patterns=*.jar
+  register: previous_versions
+
+- name: Remove previous Vertx-Starter version {{ previous_versions.files[0].path }}
+  file: path={{ item.path }} state=absent
+  with_items: "{{ previous_versions.files }}"
+
 - name: Update Vertx-Starter configuration
   template: src=conf.json.j2 dest={{ vertx_starter_conf_dir }}/conf.json owner={{ vertx_user }} group={{ vertx_group }} mode=0640
 
 - name: Update Vertx dependencies
   template: src=dependencies.json.j2 dest={{ vertx_starter_home_dir }}/dependencies.json owner={{ vertx_user }} group={{ vertx_group }} mode=0640
 
-# TODO Define how to deploy vertx_starter on the machine
-# Option1: git clone the sources and build on the machine before restarting the service
-# Option2: build the fatjar before and curl the jar before
+- name: Retrieve Vertx-Starter {{ vertx_starter_version }}
+  get_url: url={{ vertx_starter_artifact_url }} dest={{ vertx_starter_home_dir }} backup=yes owner={{ vertx_user }} group={{ vertx_group }} mode=0640
 
-#- name: 
-#  git:
-#    repo: https://github.com/vert-x3/vertx-starter.git
-#    dest: {{ vertx_starter_home_dir }}
-#    version: {{ vertx_starter_version }}
-#
-#- name: Build Vertx-starter
-#  shell: ./mvnw clean build
-#
 - name: Update Vertx-Starter service description
   template: src=vertx-starter.service.j2 dest=/etc/systemd/system/vertx-starter.service owner={{ vertx_user }} group={{ vertx_group }} mode=0640
 
 - name: Make sure Vertx-Starter running and enabled on boot
   systemd: name=vertx-starter state=restarted daemon_reload=yes enabled=yes  
+
