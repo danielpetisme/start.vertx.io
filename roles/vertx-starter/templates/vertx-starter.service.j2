@@ -1,13 +1,17 @@
 [Unit]
 Description=Vertx Starter
 After=network-online.target
-     
+
 [Service]
-ExecStart=/usr/bin/java \
-    -Dvertx.logger-delegate-factory-class-name="io.vertx.core.logging.SLF4JLogDelegateFactory" \
-    {{ vertx-starter-home}}/vertx-starter.jar \
-    -conf {{ vertx-starter-home}}/prod-conf.json
+WorkingDirectory={{ vertx_starter_home_dir}}
+ExecStart=/bin/sh -c '/usr/bin/java \
+        -Dvertx.logger-delegate-factory-class-name="io.vertx.core.logging.SLF4JLogDelegateFactory" \
+        -jar {{ vertx_starter_home_dir}}/vertx-starter-main-{{ vertx_starter_version }}-fat.jar \
+        -conf {{ vertx_starter_conf_dir}}/conf.json'
 User=vertx
-     
+SyslogIdentifier=vertx-starter
+StandardOutput=syslog
+StandardError=syslog
+
 [Install]
 WantedBy=multi-user.target

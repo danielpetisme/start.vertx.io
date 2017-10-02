@@ -4,7 +4,7 @@
   user:
     name: "{{ vertx_user }}"
     group: "{{ vertx_group }}"
-    home: "{{ vertx_home }}"
+    home: "{{ vertx_home_dir }}"
     shell: "/bin/nologin"
     comment: "Account to run Vertx apps"
     state: "present"
