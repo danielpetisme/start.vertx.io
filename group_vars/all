@@ -1,11 +1,20 @@
 ---
 
-jdk_package: "openjdk-8-jdk"
+jdk_package: "{{ vault_jdk_package }}"
 
-vertx_user: "vertx"
-vertx_group: "vertx"
-vertx_home_dir: "/var/lib/vertx"
+vertx_user: "{{ vault_vertx_user }}"
+vertx_group: "{{ vault_vertx_group }}"
+vertx_home_dir: "{{ vault_vertx_home_dir }}"
 vertx_starter_home_dir: "{{ vertx_home_dir }}/vertx-starter"
-vertx_starter_conf_dir: "/etc/vertx-starter"
+vertx_starter_conf_dir: "{{ vault_vertx_starter_conf_dir }}"
+
 vertx_starter_version: "1.0.0-SNAPSHOT"
-vertx_starter_artifact_url: "https://github.com/vert-x3/vertx-starter/releases/download/{{ vertx_starter_version }}/vertx-starter-main-{{ vertx_starter_version }}-fat.jar"
+vertx_starter_artifact_url: "https://vertx.ci.cloudbees.com/job/vertx-starter/lastSuccessfulBuild/artifact/vertx-starter-main/target/vertx-starter-main-{{ vertx_starter_version }}-fat.jar"
+
+mongodb_sysadmin_name: "{{ vault_mongodb_sysadmin_name }}"
+mongodb_sysadmin_password: "{{ vault_mongodb_sysadmin_password }}"
+vertx_starter_analytics_database: "{{ vault_vertx_starter_analytics_database }}"
+vertx_starter_analytics_user_name: "{{ vault_vertx_starter_analytics_user_name }}"
+vertx_starter_analytics_user_password: "{{ vault_vertx_starter_analytics_user_password }}"
+vertx_starter_analytics_admin_name: "{{ vault_vertx_starter_analytics_admin_name }}"
+vertx_starter_analytics_admin_password: "{{ vault_vertx_starter_analytics_admin_password}}"

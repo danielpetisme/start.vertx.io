@@ -1,0 +1,53 @@
+---
+
+- name: Install Dependencies
+  apt: name={{item}} state=present
+  with_items:
+   - "python-pymongo"
+
+- name: Import MongoDB 3.4 public key  
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 0C49F3730359A14518585931BC711F9BA15703C6
+    state: present
+
+- name: Create a list file for MongoDB 3.4  
+  lineinfile:
+    line: "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse"
+    dest: /etc/apt/sources.list.d/mongodb-org-3.4.list
+    state: present
+    create: yes
+
+- name: Install MongoDB 3.4  
+  apt: 
+    name: mongodb-org
+    state: latest
+    update_cache: yes
+
+- name: Add MongoDB sysadmin
+  mongodb_user:
+    database: admin
+    user: "{{ mongodb_sysadmin_name }}"
+    password: "{{ mongodb_sysadmin_password }}"
+    state: present    
+    roles: userAdminAnyDatabase
+
+- name: Add Vertx-Starter Analytics admin
+  mongodb_user:
+    login_user: "{{ mongodb_sysadmin_name }}"
+    login_password: "{{ mongodb_sysadmin_password }}"
+    database: "{{ vertx_starter_analytics_database }}"    
+    user: "{{ vertx_starter_analytics_admin_name }}"
+    password: "{{ vertx_starter_analytics_admin_password }}"
+    roles: readWrite,dbAdmin,userAdmin
+    state: present
+
+- name: Add Vertx-Starter Analytics user
+  mongodb_user:
+    login_user: "{{ mongodb_sysadmin_name }}"
+    login_password: "{{ mongodb_sysadmin_password }}"
+    database: "{{ vertx_starter_analytics_database }}"
+    user: "{{ vertx_starter_analytics_user_name }}"
+    password: "{{ vertx_starter_analytics_user_password}}"
+    roles: readWrite
+    state: present

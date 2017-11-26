@@ -1,3 +1,11 @@
-In order to run the playbook you need to execute the following command
+# start.vertx.io
 
-`ansible-playbook -v --private-key=<path_to_private_key_file> --user=<remote_user> -i hosts site.yml`
+An ansible playbook to provision the VM and deploy vertx-starter.
+
+The credentials are vaulted.
+
+## Provision
+`./provision.sh <private_key> <remote_user>`
+
+## Deploy
+`./deploy.sh <private_key> <remote_user>`

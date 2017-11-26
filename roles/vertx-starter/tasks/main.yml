@@ -22,7 +22,7 @@
   template: src=dependencies.json.j2 dest={{ vertx_starter_home_dir }}/dependencies.json owner={{ vertx_user }} group={{ vertx_group }} mode=0640
 
 - name: Retrieve Vertx-Starter {{ vertx_starter_version }}
-  get_url: url={{ vertx_starter_artifact_url }} dest={{ vertx_starter_home_dir }} backup=yes owner={{ vertx_user }} group={{ vertx_group }} mode=0640
+  get_url: url={{ vertx_starter_artifact_url }} dest={{ vertx_starter_home_dir}}/vertx-starter-main-fat.jar  force=yes backup=yes owner={{ vertx_user }} group={{ vertx_group }} mode=0640
 
 - name: Update Vertx-Starter service description
   template: src=vertx-starter.service.j2 dest=/etc/systemd/system/vertx-starter.service owner={{ vertx_user }} group={{ vertx_group }} mode=0640

@@ -1,0 +1,16 @@
+
+- name: Provision start.vertx.io
+  hosts: all
+  become: true
+  
+  vars_files:
+    - group_vars/vault
+
+  
+  roles:
+#    - common
+#    - firewall
+#    - java
+    - mongodb
+#   - vertx
+#    - reverse_proxy

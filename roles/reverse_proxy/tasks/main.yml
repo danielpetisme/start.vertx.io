@@ -1,0 +1,23 @@
+---
+
+- name: Install Nginx
+  apt: name={{item}} state=present
+  with_items:
+   - "nginx"
+
+- name: Copy config for vertx-starter reverse proxy
+  template:
+    src=vertx-starter.j2
+    dest=/etc/nginx/sites-available/vertx-starter
+    owner=root group=root mode=0644
+  notify: restart nginx
+
+- name: Enable vertx-starter reverse proxy
+  file:
+    src=/etc/nginx/sites-available/vertx-starter
+    dest=/etc/nginx/sites-enabled/vertx-starter
+    owner=root group=root state=link
+  notify: restart nginx
+
+- name: Configure nginx service
+  service: name=nginx enabled=yes state=started

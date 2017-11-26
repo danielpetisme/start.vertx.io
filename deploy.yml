@@ -1,0 +1,9 @@
+- name: Deploy a new version of Vert.x Starter
+  hosts: all
+  become: true
+
+  vars_files:
+    - group_vars/vault
+
+  roles:
+    - vertx-starter
